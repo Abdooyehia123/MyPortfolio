@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdulrahman Yahya | Interactive Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0f172a',
+                            900: '#020617',
+                            950: '#010409',
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#d4af37',
+                            600: '#b4941f',
+                            glow: 'rgba(212, 175, 55, 0.3)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 2s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 10px rgba(212, 175, 55, 0.2)' },
+                            '50%': { boxShadow: '0 0 25px rgba(212, 175, 55, 0.6)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
+        
+        body {
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Glassmorphism & 3D Tilt Card Base */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.1s ease-out, border-color 0.3s, box-shadow 0.3s;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .glass-card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: inherit;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212, 175, 55, 0.15), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .glass-card:hover::after {
+            opacity: 1;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+        }
+
+        ::selection {
+            background: #d4af37;
+            color: #020617;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-1 { transition-delay: 100ms; }
+        .stagger-2 { transition-delay: 200ms; }
+        .stagger-3 { transition-delay: 300ms; }
+
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s infinite;
+            color: #d4af37;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .btn-hover-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-hover-effect::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .btn-hover-effect:hover::before {
+            left: 100%;
+        }
+
+        #mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.open {
+            max-height: 400px;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-navy-950 text-slate-300 antialiased selection:bg-gold-500 selection:text-navy-900" onmousemove="handleGlobalMouseMove(event)">
+
+    <!-- Interactive Background Particles -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div id="blob1" class="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-900/20 rounded-full mix-blend-screen filter blur-[80px] transition-transform duration-[2000ms] ease-out opacity-40"></div>
+        <div id="blob2" class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-gold-600/10 rounded-full mix-blend-screen filter blur-[80px] transition-transform duration-[2500ms] ease-out opacity-30"></div>
+        <div class="absolute top-[40%] left-[50%] w-[300px] h-[300px] bg-purple-900/10 rounded-full mix-blend-screen filter blur-[100px] animate-pulse opacity-20"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-navy-900/80 backdrop-blur-lg border-b border-white/5 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 font-bold text-2xl tracking-wider text-white group cursor-pointer transition-transform hover:scale-105">
+                    AY<span class="text-gold-500 group-hover:animate-ping inline-block w-1.5 h-1.5 rounded-full ml-1 bg-gold-500"></span>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-gold-400 transition-colors px-3 py-2 text-sm font-medium tracking-wide">Home</a>
+                        <a href="#projects" class="hover:text-gold-400 transition-colors px-3 py-2 text-sm font-medium tracking-wide">Portfolio</a>
+                        <a href="#experience" class="hover:text-gold-400 transition-colors px-3 py-2 text-sm font-medium tracking-wide">Experience</a>
+                        <a href="Abdulrahman_Yahya_CV.pdf" target="_blank" class="text-gold-400 hover:text-white transition-colors px-3 py-2 text-sm font-medium tracking-wide flex items-center gap-2 border border-gold-500/30 rounded-lg hover:bg-gold-500/10">
+                            <i class="fas fa-file-alt"></i> CV
+                        </a>
+                        <a href="#contact" class="bg-gold-500 text-navy-900 hover:bg-gold-400 px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg hover:shadow-gold-500/40 animate-pulse-glow hover:scale-105">Contact Me</a>
+                    </div>
+                </div>
+
+                <div class="-mr-2 flex md:hidden">
+                    <button onclick="toggleMobileMenu()" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-white/10 focus:outline-none transition-all">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden bg-navy-900/95 border-b border-white/10 backdrop-blur-xl" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                <a href="#home" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#projects" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 block px-3 py-2 rounded-md text-base font-medium">Portfolio</a>
+                <a href="#experience" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 block px-3 py-2 rounded-md text-base font-medium">Experience</a>
+                <a href="Abdulrahman_Yahya_CV.pdf" target="_blank" class="text-gold-400 hover:text-white block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-download mr-2"></i>Download CV</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="bg-gold-500 text-navy-900 block px-3 py-2 rounded-md text-base font-bold mt-4 mx-4">Contact Me</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (RE-ENGINEERED FOR ABSOLUTE CENTERING) -->
+    <section id="home" class="relative min-h-screen flex flex-col items-center justify-center pt-20 z-10 text-center w-full">
+        <div class="w-full px-4 max-w-6xl mx-auto flex flex-col items-center justify-center text-center">
+            
+            <!-- Floating Badge -->
+            <div class="reveal animate-float mb-8 border border-gold-500/30 rounded-full bg-navy-800/40 backdrop-blur-md shadow-lg px-4 py-1.5 flex justify-center items-center">
+                <span class="text-gold-400 font-semibold tracking-widest text-[10px] md:text-xs uppercase flex items-center justify-center gap-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Open to Opportunities in Gulf
+                </span>
+            </div>
+            
+            <!-- Main Heading Area -->
+            <div class="reveal stagger-1 flex flex-col items-center justify-center w-full mb-6">
+                <!-- "Hello, I'm" Line -->
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight text-center w-full">
+                    Hello, I'm Abdulrahman
+                </h1>
+                
+                <!-- Name Line -->
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-center w-full mt-2">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-500 to-yellow-200">Abdulrahman Yahya</span>
+                </h1>
+                
+                <!-- Typing Effect Line -->
+                <div class="w-full flex justify-center mt-4">
+                    <span class="text-2xl md:text-5xl font-medium text-slate-400 block min-h-[60px] md:min-h-[70px] typing-cursor text-center" id="typing-text"></span>
+                </div>
+            </div>
+            
+            <p class="reveal stagger-2 mt-2 text-base md:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed opacity-90 px-2 text-center">
+                Co-Founder of <strong>VEXUS</strong>. Delivering high-impact digital & engineering projects across KSA, Oman, Kuwait, and Morocco. Combining ENTJ strategic leadership with deep technical expertise.
+            </p>
+            
+            <div class="reveal stagger-3 flex flex-col sm:flex-row justify-center items-center gap-4 w-full">
+                <a href="#projects" class="btn-hover-effect w-full sm:w-auto px-8 py-4 bg-gold-500 text-navy-900 font-bold rounded-lg hover:bg-gold-400 transition-all shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] transform hover:-translate-y-1 text-center">
+                    View My Work
+                </a>
+                <a href="Abdulrahman_Yahya_CV.pdf" target="_blank" class="btn-hover-effect w-full sm:w-auto px-8 py-4 bg-slate-800 border border-slate-600 text-white font-medium rounded-lg hover:bg-slate-700 hover:border-gold-500 hover:text-gold-400 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    <i class="fas fa-download"></i> Download CV
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <div class="relative z-20 mx-4 md:mx-auto max-w-7xl -mt-5 md:-mt-10 mb-20">
+        <div class="glass-card rounded-2xl p-6 md:p-12 shadow-2xl">
+            <div class="grid grid-cols-2 gap-y-8 gap-x-4 md:grid-cols-4 text-center md:divide-x md:divide-white/10">
+                <div class="reveal group flex flex-col items-center">
+                    <div class="text-3xl md:text-4xl font-bold text-white mb-2 group-hover:text-gold-400 transition-colors">4+</div>
+                    <div class="text-[10px] md:text-xs text-gold-500 font-bold uppercase tracking-widest opacity-80">Countries Served</div>
+                </div>
+                <div class="reveal stagger-1 group flex flex-col items-center">
+                    <div class="text-3xl md:text-4xl font-bold text-white mb-2 group-hover:text-gold-400 transition-colors">10+</div>
+                    <div class="text-[10px] md:text-xs text-gold-500 font-bold uppercase tracking-widest opacity-80">Major Projects</div>
+                </div>
+                <div class="reveal stagger-2 group flex flex-col items-center">
+                    <div class="text-3xl md:text-4xl font-bold text-white mb-2 group-hover:text-gold-400 transition-colors">100%</div>
+                    <div class="text-[10px] md:text-xs text-gold-500 font-bold uppercase tracking-widest opacity-80">Delivery Rate</div>
+                </div>
+                <div class="reveal stagger-3 group flex flex-col items-center">
+                    <div class="text-3xl md:text-4xl font-bold text-white mb-2 group-hover:text-gold-400 transition-colors">ENTJ</div>
+                    <div class="text-[10px] md:text-xs text-gold-500 font-bold uppercase tracking-widest opacity-80">Leadership Style</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Portfolio Section -->
+    <section id="projects" class="py-20 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 reveal">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Featured Projects</h2>
+                <div class="w-24 h-1.5 bg-gold-500 mx-auto rounded-full shadow-[0_0_15px_rgba(212,175,55,0.5)]"></div>
+            </div>
+
+            <div class="flex justify-center gap-3 mb-12 flex-wrap reveal stagger-1">
+                <button onclick="filterProjects('all')" class="filter-btn active px-5 py-2 text-sm md:text-base rounded-full border border-gold-500 bg-gold-500/10 text-gold-400 hover:bg-gold-500 hover:text-navy-900 transition-all font-medium hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]">All</button>
+                <button onclick="filterProjects('architecture')" class="filter-btn px-5 py-2 text-sm md:text-base rounded-full border border-slate-700 hover:border-gold-500 hover:text-gold-400 transition-all text-slate-400">Architecture</button>
+                <button onclick="filterProjects('edtech')" class="filter-btn px-5 py-2 text-sm md:text-base rounded-full border border-slate-700 hover:border-gold-500 hover:text-gold-400 transition-all text-slate-400">EdTech</button>
+                <button onclick="filterProjects('media')" class="filter-btn px-5 py-2 text-sm md:text-base rounded-full border border-slate-700 hover:border-gold-500 hover:text-gold-400 transition-all text-slate-400">Media</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 perspective-container px-2">
+                <!-- Project: Stone Crusher -->
+                <div class="project-card architecture glass-card rounded-2xl overflow-hidden group reveal cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="h-56 bg-slate-800 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 to-transparent z-10"></div>
+                        <div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20 group-hover:scale-110 transition-transform duration-700"></div>
+                        <i class="fas fa-industry absolute bottom-4 left-4 text-5xl text-white/10 z-0 group-hover:text-gold-500/20 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
+                        <span class="absolute top-4 right-4 bg-green-600/90 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide z-20 shadow-lg">Industrial</span>
+                    </div>
+                    <div class="p-6 relative z-20 bg-navy-900/40">
+                        <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gold-400 transition-colors">Stone Crusher Plant</h3>
+                        <p class="text-xs text-slate-500 mb-4 font-mono">KSARA • SITE PLANNING</p>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-3 group-hover:text-slate-300 transition-colors">Managed full site plans including MEP, Plumbing, Electrical layouts, and operational furniture distribution.</p>
+                        <div class="flex gap-2">
+                            <span class="text-[10px] border border-white/10 px-2 py-1 rounded text-slate-400 bg-white/5">MEP</span>
+                            <span class="text-[10px] border border-white/10 px-2 py-1 rounded text-slate-400 bg-white/5">Management</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project: Tahseli -->
+                <div class="project-card edtech glass-card rounded-2xl overflow-hidden group reveal stagger-1 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="h-56 bg-slate-800 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 to-transparent z-10"></div>
+                        <div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 group-hover:scale-110 transition-transform duration-700"></div>
+                        <i class="fas fa-laptop-code absolute bottom-4 left-4 text-5xl text-white/10 z-0 group-hover:text-gold-500/20 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
+                        <span class="absolute top-4 right-4 bg-blue-600/90 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide z-20 shadow-lg">KSA</span>
+                    </div>
+                    <div class="p-6 relative z-20 bg-navy-900/40">
+                        <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gold-400 transition-colors">Tahseli Platform</h3>
+                        <p class="text-xs text-slate-500 mb-4 font-mono">EDTECH • FULL STACK</p>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-3 group-hover:text-slate-300 transition-colors">End-to-end delivery: UI/UX, Dev, Payment gateways, visual identity, and educational content production.</p>
+                    </div>
+                </div>
+
+                <!-- Project: Villa Qatif -->
+                <div class="project-card architecture glass-card rounded-2xl overflow-hidden group reveal stagger-2 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="h-56 bg-slate-800 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 to-transparent z-10"></div>
+                        <div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/diamond-upholstery.png')] opacity-20 group-hover:scale-110 transition-transform duration-700"></div>
+                        <i class="fas fa-home absolute bottom-4 left-4 text-5xl text-white/10 z-0 group-hover:text-gold-500/20 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
+                        <span class="absolute top-4 right-4 bg-purple-600/90 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide z-20 shadow-lg">Residential</span>
+                    </div>
+                    <div class="p-6 relative z-20 bg-navy-900/40">
+                        <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gold-400 transition-colors">Luxury Private Villa</h3>
+                        <p class="text-xs text-slate-500 mb-4 font-mono">QATIF, KSA • DESIGN</p>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-3 group-hover:text-slate-300 transition-colors">Led client discussions and supervised delivery of comprehensive interior & exterior designs.</p>
+                    </div>
+                </div>
+
+                <!-- Project: Hotel Facade -->
+                <div class="project-card architecture glass-card rounded-2xl overflow-hidden group reveal cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="h-56 bg-slate-800 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 to-transparent z-10"></div>
+                        <div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-20 group-hover:scale-110 transition-transform duration-700"></div>
+                        <i class="fas fa-hotel absolute bottom-4 left-4 text-5xl text-white/10 z-0 group-hover:text-gold-500/20 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
+                        <span class="absolute top-4 right-4 bg-orange-600/90 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide z-20 shadow-lg">Riyadh</span>
+                    </div>
+                    <div class="p-6 relative z-20 bg-navy-900/40">
+                        <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gold-400 transition-colors">Hotel & Shop Façades</h3>
+                        <p class="text-xs text-slate-500 mb-4 font-mono">COMMERCIAL • ARCHITECTURE</p>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-3 group-hover:text-slate-300 transition-colors">Directed concept development for hospitality & retail projects in Riyadh.</p>
+                    </div>
+                </div>
+
+                <!-- Project: Storybook -->
+                <div class="project-card media glass-card rounded-2xl overflow-hidden group reveal stagger-1 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="h-56 bg-slate-800 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 to-transparent z-10"></div>
+                        <div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 group-hover:scale-110 transition-transform duration-700"></div>
+                        <i class="fas fa-book-open absolute bottom-4 left-4 text-5xl text-white/10 z-0 group-hover:text-gold-500/20 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
+                        <span class="absolute top-4 right-4 bg-pink-600/90 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide z-20 shadow-lg">Kuwait</span>
+                    </div>
+                    <div class="p-6 relative z-20 bg-navy-900/40">
+                        <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gold-400 transition-colors">Children's Story Series</h3>
+                        <p class="text-xs text-slate-500 mb-4 font-mono">MEDIA • PUBLISHING</p>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-3 group-hover:text-slate-300 transition-colors">Managed illustration and publishing workflow for creative stories. Also directed Math booklets for Saudi Curriculum.</p>
+                    </div>
+                </div>
+
+                <!-- Project: Car Wash -->
+                <div class="project-card architecture glass-card rounded-2xl overflow-hidden group reveal stagger-2 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="h-56 bg-slate-800 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 to-transparent z-10"></div>
+                        <div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/wall-4-light.png')] opacity-20 group-hover:scale-110 transition-transform duration-700"></div>
+                        <i class="fas fa-car absolute bottom-4 left-4 text-5xl text-white/10 z-0 group-hover:text-gold-500/20 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
+                        <span class="absolute top-4 right-4 bg-teal-600/90 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide z-20 shadow-lg">Int'l</span>
+                    </div>
+                    <div class="p-6 relative z-20 bg-navy-900/40">
+                        <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gold-400 transition-colors">Car Wash & Residential</h3>
+                        <p class="text-xs text-slate-500 mb-4 font-mono">MOROCCO & KSA • OPS</p>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-3 group-hover:text-slate-300 transition-colors">High-level supervision and scope alignment for cross-border engineering projects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Timeline -->
+    <section id="experience" class="py-24 bg-navy-900/30 relative z-10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-16 text-center reveal">Professional Journey</h2>
+            
+            <div class="relative border-l-2 border-white/10 ml-3 md:ml-0 md:pl-10 space-y-12">
+                <!-- VEXUS -->
+                <div class="relative pl-8 md:pl-0 reveal">
+                    <div class="absolute -left-[9px] top-0 w-5 h-5 bg-gold-500 rounded-full border-4 border-navy-900 shadow-[0_0_15px_rgba(212,175,55,0.8)] animate-pulse"></div>
+                    <div class="glass-card p-8 rounded-2xl relative hover:border-gold-500/30 group">
+                        <span class="absolute top-6 right-6 text-gold-500 font-bold text-xs tracking-widest border border-gold-500/30 px-3 py-1 rounded-full bg-gold-500/10">2024 - PRESENT</span>
+                        <h3 class="text-2xl font-bold text-white mt-1 group-hover:text-gold-400 transition-colors">Managing Director & Co-Founder</h3>
+                        <h4 class="text-lg text-slate-300 mb-4">VEXUS for Digital Solutions</h4>
+                        <ul class="space-y-2 text-slate-400 text-sm list-disc pl-4 marker:text-gold-500">
+                            <li>Leading operations for a full-service agency across KSA, Oman, Kuwait, and Morocco.</li>
+                            <li>Directed and delivered 10+ cross-border projects.</li>
+                            <li>Established weekly reporting and risk controls to ensure delivery consistency.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Self Employed -->
+                <div class="relative pl-8 md:pl-0 reveal stagger-1">
+                    <div class="absolute -left-[9px] top-0 w-5 h-5 bg-slate-600 rounded-full border-4 border-navy-900"></div>
+                    <div class="glass-card p-6 rounded-2xl hover:bg-white/5">
+                        <span class="text-slate-500 font-bold text-xs tracking-widest block mb-2">SELF-EMPLOYED</span>
+                        <h3 class="text-xl font-bold text-white">Independent Business Analyst</h3>
+                        <p class="mt-2 text-slate-400 text-sm leading-relaxed">
+                            Conducted feasibility studies for fashion and perfume ventures. Identified critical risks (customs, supply chain).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Business Clinic -->
+                <div class="relative pl-8 md:pl-0 reveal stagger-2">
+                    <div class="absolute -left-[9px] top-0 w-5 h-5 bg-slate-600 rounded-full border-4 border-navy-900"></div>
+                    <div class="glass-card p-6 rounded-2xl hover:bg-white/5">
+                        <span class="text-slate-500 font-bold text-xs tracking-widest block mb-2">INTERNSHIP (DUBAI)</span>
+                        <h3 class="text-xl font-bold text-white">Software Solutions Specialist</h3>
+                        <h4 class="text-sm text-slate-400 mb-3">The Business Clinic</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Learned Unreal Engine in 2 weeks. Developed a Flutter/Dart MVP and Python automation scripts.
+                        </p>
+                    </div>
+                </div>
+
+                 <!-- Freelance -->
+                 <div class="relative pl-8 md:pl-0 reveal stagger-3">
+                    <div class="absolute -left-[9px] top-0 w-5 h-5 bg-slate-600 rounded-full border-4 border-navy-900"></div>
+                    <div class="glass-card p-6 rounded-2xl hover:bg-white/5">
+                        <span class="text-slate-500 font-bold text-xs tracking-widest block mb-2">HIGH SCHOOL</span>
+                        <h3 class="text-xl font-bold text-white">Freelance Multimedia Editor</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Produced video content (After Effects/Premiere) for Al-Sunduq Newspaper (Kuwait) and local ads.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-24 z-10 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-16 text-center reveal">Education & Training</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Helwan -->
+                <div class="glass-card p-8 rounded-2xl text-center reveal hover:border-gold-500/30 group">
+                    <div class="w-20 h-20 bg-navy-800 rounded-full flex items-center justify-center mx-auto mb-6 text-gold-500 text-3xl group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(0,0,0,0.3)]">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-gold-400 transition-colors">B.Sc. Computer Engineering</h3>
+                    <p class="text-sm text-gold-400 mb-4">Helwan University (2022 - Present)</p>
+                    <p class="text-sm text-slate-400">Specialization in Embedded Systems. <br><strong>Capstone:</strong> Speaker Amplifier Circuit (PCB Design & Assembly).</p>
+                </div>
+
+                <!-- Beni Suef -->
+                <div class="glass-card p-8 rounded-2xl text-center reveal stagger-1 hover:border-gold-500/30 group">
+                    <div class="w-20 h-20 bg-navy-800 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300 text-3xl group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(0,0,0,0.3)]">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-gold-400 transition-colors">First-Year Engineering</h3>
+                    <p class="text-sm text-gold-400 mb-4">Beni Suef University (2021)</p>
+                    <p class="text-sm text-slate-400"><strong>Ranked 4th</strong> on cohort with 90% GPA. <br>Participated in Rocket Prototyping Project.</p>
+                </div>
+
+                <!-- ITI -->
+                <div class="glass-card p-8 rounded-2xl text-center reveal stagger-2 hover:border-gold-500/30 group">
+                    <div class="w-20 h-20 bg-navy-800 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300 text-3xl group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(0,0,0,0.3)]">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-gold-400 transition-colors">Embedded Systems Training</h3>
+                    <p class="text-sm text-gold-400 mb-4">ITI - Smart Village (162 Hours)</p>
+                    <p class="text-sm text-slate-400">Intensive C & Microcontrollers. <br><strong>Project:</strong> Smart Home System on AVR ATmega32.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-gradient-to-t from-black to-navy-900 relative overflow-hidden z-10">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10 reveal">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Ready to Drive Results?</h2>
+            <p class="text-slate-400 mb-12 text-lg">
+                I am currently open to managerial and executive roles in the Gulf region. 
+                <br>Available for remote work or relocation.
+            </p>
+            
+            <div class="flex flex-col md:flex-row justify-center gap-6 mb-16">
+                <a href="mailto:abdooyehia@gmail.com" class="group flex items-center justify-center gap-4 bg-white/5 backdrop-blur-md p-6 rounded-2xl hover:bg-gold-500 hover:text-navy-900 transition-all border border-white/10 w-full md:w-auto transform hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(212,175,55,0.4)]">
+                    <div class="w-12 h-12 bg-navy-900 rounded-full flex items-center justify-center text-gold-500 group-hover:text-white transition-colors text-xl">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="text-xs uppercase tracking-wider opacity-70">Email Me</div>
+                        <div class="font-bold text-lg">abdooyehia@gmail.com</div>
+                    </div>
+                </a>
+
+                <a href="tel:+201145507818" class="group flex items-center justify-center gap-4 bg-white/5 backdrop-blur-md p-6 rounded-2xl hover:bg-gold-500 hover:text-navy-900 transition-all border border-white/10 w-full md:w-auto transform hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(212,175,55,0.4)]">
+                    <div class="w-12 h-12 bg-navy-900 rounded-full flex items-center justify-center text-gold-500 group-hover:text-white transition-colors text-xl">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="text-xs uppercase tracking-wider opacity-70">Call Me</div>
+                        <div class="font-bold text-lg">+20 114 550 7818</div>
+                    </div>
+                </a>
+            </div>
+            
+            <footer class="border-t border-white/10 pt-8 text-slate-500 text-sm">
+                &copy; 2025 Abdulrahman Yahya. Built with Strategic Precision.
+            </footer>
+        </div>
+    </section>
+
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('open');
+        }
+
+        const textToType = ["Managing Director", "Tech Strategist", "Operations Executive"];
+        let typeIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typeSpeed = 100;
+        const deleteSpeed = 50;
+        const delayBetween = 2000;
+        const typeElement = document.getElementById('typing-text');
+
+        function typeWriter() {
+            const currentText = textToType[typeIndex];
+            
+            if (isDeleting) {
+                typeElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typeElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentText.length) {
+                isDeleting = true;
+                setTimeout(typeWriter, delayBetween);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                typeIndex = (typeIndex + 1) % textToType.length;
+                setTimeout(typeWriter, 500);
+            } else {
+                setTimeout(typeWriter, isDeleting ? deleteSpeed : typeSpeed);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', typeWriter);
+
+        function handleGlobalMouseMove(e) {
+            const blob1 = document.getElementById('blob1');
+            const blob2 = document.getElementById('blob2');
+            
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            blob1.style.transform = `translate(${x * 30}px, ${y * 30}px)`;
+            blob2.style.transform = `translate(${x * -30}px, ${y * -30}px)`;
+        }
+
+        function tiltCard(e, card) {
+            if(window.innerWidth < 768) return; 
+
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -5;
+            const rotateY = ((x - centerX) / centerX) * 5;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        }
+
+        function resetTilt(card) {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+        function filterProjects(category) {
+            const cards = document.querySelectorAll('.project-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => {
+                if(btn.textContent.toLowerCase().includes(category) || (category === 'all' && btn.textContent === 'All')) {
+                    btn.classList.add('bg-gold-500/20', 'text-gold-400', 'border-gold-500');
+                    btn.classList.remove('text-slate-400', 'border-slate-700');
+                } else {
+                    btn.classList.remove('bg-gold-500/20', 'text-gold-400', 'border-gold-500');
+                    btn.classList.add('text-slate-400', 'border-slate-700');
+                }
+            });
+
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'block';
+                    setTimeout(() => card.classList.add('active'), 100); 
+                } else {
+                    card.style.display = 'none';
+                    card.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
