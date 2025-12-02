@@ -170,7 +170,8 @@
                         <a href="#home" class="hover:text-gold-400 transition-colors px-3 py-2 text-sm font-medium tracking-wide">Home</a>
                         <a href="#projects" class="hover:text-gold-400 transition-colors px-3 py-2 text-sm font-medium tracking-wide">Portfolio</a>
                         <a href="#experience" class="hover:text-gold-400 transition-colors px-3 py-2 text-sm font-medium tracking-wide">Experience</a>
-                        <a href="Abdulrahman_Yahya_CV.pdf" target="_blank" class="text-gold-400 hover:text-white transition-colors px-3 py-2 text-sm font-medium tracking-wide flex items-center gap-2 border border-gold-500/30 rounded-lg hover:bg-gold-500/10">
+                        <!-- CV Link (Navbar) -->
+                        <a href="https://drive.google.com/file/d/16HOA-suHphkfHkv5PCIdC11C8zj57BAL/view?usp=sharing" target="_blank" class="text-gold-400 hover:text-white transition-colors px-3 py-2 text-sm font-medium tracking-wide flex items-center gap-2 border border-gold-500/30 rounded-lg hover:bg-gold-500/10">
                             <i class="fas fa-file-alt"></i> CV
                         </a>
                         <a href="#contact" class="bg-gold-500 text-navy-900 hover:bg-gold-400 px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg hover:shadow-gold-500/40 animate-pulse-glow hover:scale-105">Contact Me</a>
@@ -191,13 +192,13 @@
                 <a href="#home" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 block px-3 py-2 rounded-md text-base font-medium">Home</a>
                 <a href="#projects" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 block px-3 py-2 rounded-md text-base font-medium">Portfolio</a>
                 <a href="#experience" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-gold-400 block px-3 py-2 rounded-md text-base font-medium">Experience</a>
-                <a href="Abdulrahman_Yahya_CV.pdf" target="_blank" class="text-gold-400 hover:text-white block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-download mr-2"></i>Download CV</a>
+                <a href="https://drive.google.com/file/d/16HOA-suHphkfHkv5PCIdC11C8zj57BAL/view?usp=sharing" target="_blank" class="text-gold-400 hover:text-white block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-download mr-2"></i>Download CV</a>
                 <a href="#contact" onclick="toggleMobileMenu()" class="bg-gold-500 text-navy-900 block px-3 py-2 rounded-md text-base font-bold mt-4 mx-4">Contact Me</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section (RE-ENGINEERED FOR ABSOLUTE CENTERING) -->
+    <!-- Hero Section -->
     <section id="home" class="relative min-h-screen flex flex-col items-center justify-center pt-20 z-10 text-center w-full">
         <div class="w-full px-4 max-w-6xl mx-auto flex flex-col items-center justify-center text-center">
             
@@ -212,7 +213,7 @@
             <div class="reveal stagger-1 flex flex-col items-center justify-center w-full mb-6">
                 <!-- "Hello, I'm" Line -->
                 <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight text-center w-full">
-                    Hello, I'm Abdulrahman
+                    Hello, I'm
                 </h1>
                 
                 <!-- Name Line -->
@@ -234,7 +235,8 @@
                 <a href="#projects" class="btn-hover-effect w-full sm:w-auto px-8 py-4 bg-gold-500 text-navy-900 font-bold rounded-lg hover:bg-gold-400 transition-all shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] transform hover:-translate-y-1 text-center">
                     View My Work
                 </a>
-                <a href="Abdulrahman_Yahya_CV.pdf" target="_blank" class="btn-hover-effect w-full sm:w-auto px-8 py-4 bg-slate-800 border border-slate-600 text-white font-medium rounded-lg hover:bg-slate-700 hover:border-gold-500 hover:text-gold-400 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                <!-- CV Link (Hero Button) -->
+                <a href="https://drive.google.com/file/d/16HOA-suHphkfHkv5PCIdC11C8zj57BAL/view?usp=sharing" target="_blank" class="btn-hover-effect w-full sm:w-auto px-8 py-4 bg-slate-800 border border-slate-600 text-white font-medium rounded-lg hover:bg-slate-700 hover:border-gold-500 hover:text-gold-400 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
                     <i class="fas fa-download"></i> Download CV
                 </a>
             </div>
@@ -282,11 +284,13 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 perspective-container px-2">
                 <!-- Project: Stone Crusher -->
-                <div class="project-card architecture glass-card rounded-2xl overflow-hidden group reveal cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
+                <a href="https://drive.google.com/drive/folders/1hlv8y8wdbSZhqCvlNABsYKXNPO7Ej9tw?usp=sharing" target="_blank" class="project-card architecture glass-card rounded-2xl overflow-hidden group reveal cursor-pointer block" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
                     <div class="h-56 bg-slate-800 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 to-transparent z-10"></div>
-                        <div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20 group-hover:scale-110 transition-transform duration-700"></div>
-                        <i class="fas fa-industry absolute bottom-4 left-4 text-5xl text-white/10 z-0 group-hover:text-gold-500/20 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
+                        <!-- Thumbnail Image -->
+                        <img src="./crusher.jpg" alt="Stone Crusher" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-110 transition-transform duration-700">
+                        
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/40 to-transparent z-10"></div>
+                        <i class="fas fa-industry absolute bottom-4 left-4 text-5xl text-white/80 z-20 group-hover:text-gold-500 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
                         <span class="absolute top-4 right-4 bg-green-600/90 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide z-20 shadow-lg">Industrial</span>
                     </div>
                     <div class="p-6 relative z-20 bg-navy-900/40">
@@ -298,14 +302,16 @@
                             <span class="text-[10px] border border-white/10 px-2 py-1 rounded text-slate-400 bg-white/5">Management</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
                 <!-- Project: Tahseli -->
-                <div class="project-card edtech glass-card rounded-2xl overflow-hidden group reveal stagger-1 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
+                <a href="https://drive.google.com/drive/folders/10-IFBtA87Cr92tv5TxBsWKMfsF_hmvKE?usp=sharing" target="_blank" class="project-card edtech glass-card rounded-2xl overflow-hidden group reveal stagger-1 cursor-pointer block" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
                     <div class="h-56 bg-slate-800 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 to-transparent z-10"></div>
-                        <div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 group-hover:scale-110 transition-transform duration-700"></div>
-                        <i class="fas fa-laptop-code absolute bottom-4 left-4 text-5xl text-white/10 z-0 group-hover:text-gold-500/20 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
+                        <!-- Thumbnail Image -->
+                        <img src="./tahseli.jpg" alt="Tahseli Platform" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-110 transition-transform duration-700">
+                        
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/40 to-transparent z-10"></div>
+                        <i class="fas fa-laptop-code absolute bottom-4 left-4 text-5xl text-white/80 z-20 group-hover:text-gold-500 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
                         <span class="absolute top-4 right-4 bg-blue-600/90 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide z-20 shadow-lg">KSA</span>
                     </div>
                     <div class="p-6 relative z-20 bg-navy-900/40">
@@ -313,14 +319,16 @@
                         <p class="text-xs text-slate-500 mb-4 font-mono">EDTECH • FULL STACK</p>
                         <p class="text-slate-400 text-sm mb-4 line-clamp-3 group-hover:text-slate-300 transition-colors">End-to-end delivery: UI/UX, Dev, Payment gateways, visual identity, and educational content production.</p>
                     </div>
-                </div>
+                </a>
 
                 <!-- Project: Villa Qatif -->
-                <div class="project-card architecture glass-card rounded-2xl overflow-hidden group reveal stagger-2 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
+                <a href="https://drive.google.com/drive/folders/1sulpH_ieB95fLh8IuAFhJbyl9dcUa8vq?usp=sharing" target="_blank" class="project-card architecture glass-card rounded-2xl overflow-hidden group reveal stagger-2 cursor-pointer block" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
                     <div class="h-56 bg-slate-800 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 to-transparent z-10"></div>
-                        <div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/diamond-upholstery.png')] opacity-20 group-hover:scale-110 transition-transform duration-700"></div>
-                        <i class="fas fa-home absolute bottom-4 left-4 text-5xl text-white/10 z-0 group-hover:text-gold-500/20 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
+                        <!-- Thumbnail Image -->
+                        <img src="./villa.jpg" alt="Luxury Villa" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-110 transition-transform duration-700">
+                        
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/40 to-transparent z-10"></div>
+                        <i class="fas fa-home absolute bottom-4 left-4 text-5xl text-white/80 z-20 group-hover:text-gold-500 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
                         <span class="absolute top-4 right-4 bg-purple-600/90 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide z-20 shadow-lg">Residential</span>
                     </div>
                     <div class="p-6 relative z-20 bg-navy-900/40">
@@ -328,14 +336,16 @@
                         <p class="text-xs text-slate-500 mb-4 font-mono">QATIF, KSA • DESIGN</p>
                         <p class="text-slate-400 text-sm mb-4 line-clamp-3 group-hover:text-slate-300 transition-colors">Led client discussions and supervised delivery of comprehensive interior & exterior designs.</p>
                     </div>
-                </div>
+                </a>
 
                 <!-- Project: Hotel Facade -->
-                <div class="project-card architecture glass-card rounded-2xl overflow-hidden group reveal cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
+                <a href="https://drive.google.com/drive/folders/14eE0IvYVpomz1UvJUArMxq0xDMibQ3uC?usp=sharing" target="_blank" class="project-card architecture glass-card rounded-2xl overflow-hidden group reveal cursor-pointer block" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
                     <div class="h-56 bg-slate-800 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 to-transparent z-10"></div>
-                        <div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-20 group-hover:scale-110 transition-transform duration-700"></div>
-                        <i class="fas fa-hotel absolute bottom-4 left-4 text-5xl text-white/10 z-0 group-hover:text-gold-500/20 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
+                        <!-- Thumbnail Image -->
+                        <img src="./hotel.jpg" alt="Hotel Facade" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-110 transition-transform duration-700">
+                        
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/40 to-transparent z-10"></div>
+                        <i class="fas fa-hotel absolute bottom-4 left-4 text-5xl text-white/80 z-20 group-hover:text-gold-500 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
                         <span class="absolute top-4 right-4 bg-orange-600/90 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide z-20 shadow-lg">Riyadh</span>
                     </div>
                     <div class="p-6 relative z-20 bg-navy-900/40">
@@ -343,14 +353,16 @@
                         <p class="text-xs text-slate-500 mb-4 font-mono">COMMERCIAL • ARCHITECTURE</p>
                         <p class="text-slate-400 text-sm mb-4 line-clamp-3 group-hover:text-slate-300 transition-colors">Directed concept development for hospitality & retail projects in Riyadh.</p>
                     </div>
-                </div>
+                </a>
 
                 <!-- Project: Storybook -->
-                <div class="project-card media glass-card rounded-2xl overflow-hidden group reveal stagger-1 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
+                <a href="https://drive.google.com/drive/folders/1f8xHDT_kcmLzEJ9rp9dESds7VZQD3Dem?usp=sharing" target="_blank" class="project-card media glass-card rounded-2xl overflow-hidden group reveal stagger-1 cursor-pointer block" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
                     <div class="h-56 bg-slate-800 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 to-transparent z-10"></div>
-                        <div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 group-hover:scale-110 transition-transform duration-700"></div>
-                        <i class="fas fa-book-open absolute bottom-4 left-4 text-5xl text-white/10 z-0 group-hover:text-gold-500/20 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
+                        <!-- Thumbnail Image -->
+                        <img src="./stories.jpg" alt="Children Stories" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-110 transition-transform duration-700">
+                        
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/40 to-transparent z-10"></div>
+                        <i class="fas fa-book-open absolute bottom-4 left-4 text-5xl text-white/80 z-20 group-hover:text-gold-500 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
                         <span class="absolute top-4 right-4 bg-pink-600/90 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide z-20 shadow-lg">Kuwait</span>
                     </div>
                     <div class="p-6 relative z-20 bg-navy-900/40">
@@ -358,14 +370,16 @@
                         <p class="text-xs text-slate-500 mb-4 font-mono">MEDIA • PUBLISHING</p>
                         <p class="text-slate-400 text-sm mb-4 line-clamp-3 group-hover:text-slate-300 transition-colors">Managed illustration and publishing workflow for creative stories. Also directed Math booklets for Saudi Curriculum.</p>
                     </div>
-                </div>
+                </a>
 
                 <!-- Project: Car Wash -->
-                <div class="project-card architecture glass-card rounded-2xl overflow-hidden group reveal stagger-2 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
+                <a href="https://drive.google.com/file/d/10DyRg9Ssvco32W0veFOJYg8rdw-nt15L/view?usp=sharing" target="_blank" class="project-card architecture glass-card rounded-2xl overflow-hidden group reveal stagger-2 cursor-pointer block" onmousemove="tiltCard(event, this)" onmouseleave="resetTilt(this)">
                     <div class="h-56 bg-slate-800 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 to-transparent z-10"></div>
-                        <div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/wall-4-light.png')] opacity-20 group-hover:scale-110 transition-transform duration-700"></div>
-                        <i class="fas fa-car absolute bottom-4 left-4 text-5xl text-white/10 z-0 group-hover:text-gold-500/20 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
+                        <!-- Thumbnail Image -->
+                        <img src="./carwash.jpg" alt="Car Wash Project" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-110 transition-transform duration-700">
+                        
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/40 to-transparent z-10"></div>
+                        <i class="fas fa-car absolute bottom-4 left-4 text-5xl text-white/80 z-20 group-hover:text-gold-500 transition-colors transform group-hover:-translate-y-2 duration-500"></i>
                         <span class="absolute top-4 right-4 bg-teal-600/90 backdrop-blur text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide z-20 shadow-lg">Int'l</span>
                     </div>
                     <div class="p-6 relative z-20 bg-navy-900/40">
@@ -373,7 +387,7 @@
                         <p class="text-xs text-slate-500 mb-4 font-mono">MOROCCO & KSA • OPS</p>
                         <p class="text-slate-400 text-sm mb-4 line-clamp-3 group-hover:text-slate-300 transition-colors">High-level supervision and scope alignment for cross-border engineering projects.</p>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </section>
